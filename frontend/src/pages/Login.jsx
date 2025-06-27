@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import API from "../api/api";
 import toast from "react-hot-toast";
 
@@ -23,33 +24,62 @@ export default function Login() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
-      <form
+    <motion.div
+      className="h-screen flex items-center justify-center bg-gray-100"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
+      <motion.form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow w-96 space-y-4"
+        initial={{ y: -40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 80 }}
       >
-        <h2 className="text-2xl font-bold text-center">Login</h2>
-        <input
+        <motion.h2
+          className="text-2xl font-bold text-center"
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          Login
+        </motion.h2>
+
+        <motion.input
           name="email"
           type="email"
           placeholder="Email"
           className="input"
           onChange={handleChange}
           required
+          whileFocus={{ scale: 1.02 }}
         />
-        <input
+
+        <motion.input
           name="password"
           type="password"
           placeholder="Password"
           className="input"
           onChange={handleChange}
           required
+          whileFocus={{ scale: 1.02 }}
         />
-        <button className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition">
-          Login
-        </button>
 
-        <p className="text-sm text-center">
+        <motion.button
+          className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition"
+          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+        >
+          Login
+        </motion.button>
+
+        <motion.p
+          className="text-sm text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
           Don't have an account?{" "}
           <Link
             to="/signup"
@@ -57,8 +87,8 @@ export default function Login() {
           >
             Sign up
           </Link>
-        </p>
-      </form>
-    </div>
+        </motion.p>
+      </motion.form>
+    </motion.div>
   );
 }

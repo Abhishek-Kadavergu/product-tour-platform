@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import API from "../api/api";
 import toast from "react-hot-toast";
 
@@ -24,11 +25,6 @@ export default function Dashboard() {
   }, []);
 
   const handleDelete = async (id) => {
-    // const confirm = window.confirm(
-    //   "Are you sure you want to delete this tour?"
-    // );
-    // if (!confirm) return;
-
     try {
       await API.delete(`/tours/${id}`);
       setTours(tours.filter((t) => t._id !== id));
@@ -41,46 +37,69 @@ export default function Dashboard() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">📚 Your Product Tours</h1>
+      <motion.h1
+        className="text-3xl font-bold mb-4"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        📚 Your Product Tours
+      </motion.h1>
 
-      <button
+      <motion.button
         className="mb-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
         onClick={() => navigate("/create")}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
         + Create New Tour
-      </button>
+      </motion.button>
 
       {tours.length === 0 ? (
-        <p>No tours yet.</p>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-gray-600"
+        >
+          No tours yet.
+        </motion.p>
       ) : (
-        <ul className="space-y-4">
-          {tours.map((tour) => (
-            <li
-              key={tour._id}
-              className="p-4 border rounded bg-white shadow-sm space-y-1"
-            >
-              <h2 className="text-lg font-semibold">{tour.title}</h2>
-              <p>
-                {tour.steps.length} step(s) •{" "}
-                {tour.isPublic ? "Public" : "Private"}
-              </p>
-              <div className="flex space-x-4 mt-2">
-                <button
-                  className="text-blue-600 hover:underline"
-                  onClick={() => navigate(`/tour/${tour._id}`)}
-                >
-                  View Tour
-                </button>
-                <button
-                  className="text-red-600 hover:underline"
-                  onClick={() => handleDelete(tour._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <AnimatePresence>
+            {tours.map((tour) => (
+              <motion.div
+                key={tour._id}
+                className="p-4 border rounded bg-white shadow-sm space-y-1"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+              >
+                <h2 className="text-lg font-semibold">{tour.title}</h2>
+                <p>
+                  {tour.steps.length} step(s) •{" "}
+                  {tour.isPublic ? "Public" : "Private"}
+                </p>
+                <div className="flex space-x-4 mt-2">
+                  <motion.button
+                    className="text-blue-600 hover:underline"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => navigate(`/tour/${tour._id}`)}
+                  >
+                    View Tour
+                  </motion.button>
+                  <motion.button
+                    className="text-red-600 hover:underline"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => handleDelete(tour._id)}
+                  >
+                    Delete
+                  </motion.button>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
       )}
     </div>
   );
