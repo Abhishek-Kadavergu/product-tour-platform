@@ -75,4 +75,27 @@ router.delete("/:id", protect, async (req, res) => {
   }
 });
 
+// Update a tour
+router.put("/:id", protect, async (req, res) => {
+  const { title, steps, isPublic } = req.body;
+
+  try {
+    const tour = await Tour.findById(req.params.id);
+    if (!tour) return res.status(404).json({ message: "Tour not found" });
+
+    if (tour.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    tour.title = title || tour.title;
+    tour.isPublic = isPublic !== undefined ? isPublic : tour.isPublic;
+    tour.steps = steps || tour.steps;
+
+    const updatedTour = await tour.save();
+    res.json(updatedTour);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;

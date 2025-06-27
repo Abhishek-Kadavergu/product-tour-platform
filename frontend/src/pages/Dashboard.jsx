@@ -86,7 +86,14 @@ export default function Dashboard() {
                     whileHover={{ scale: 1.05 }}
                     onClick={() => navigate(`/tour/${tour._id}`)}
                   >
-                    View Tour
+                    View
+                  </motion.button>
+                  <motion.button
+                    className="text-yellow-600 hover:underline"
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => navigate(`/edit/${tour._id}`)}
+                  >
+                    Edit
                   </motion.button>
                   <motion.button
                     className="text-red-600 hover:underline"
