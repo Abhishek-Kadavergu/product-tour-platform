@@ -43,7 +43,7 @@ A full-stack web application to **create, view, and manage tour packages** with 
 git clone https://github.com/your-username/tour-project.git
 cd tour-project
 
-##Backend Setup
+## Backend Setup
 cd backend
 npm install
 
@@ -56,14 +56,16 @@ PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 
-#Run the backend
+# Run the backend
 npn start
 
-##Frontend Setup
+## Frontend Setup
 cd frontend
 npn run dev
 
-###Folder Structure
+ --- 
+
+### Folder Structure
 tour-project/
 ├── backend/
 │   ├── controllers/
